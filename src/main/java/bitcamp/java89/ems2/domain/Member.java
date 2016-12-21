@@ -7,8 +7,17 @@ public class Member implements Serializable {
   
   protected int memberNo;
   protected String name;
+  protected String tel;
   protected String email;
   protected String password;
+  
+  public String getTel() {
+    return tel;
+  }
+  public void setTel(String tel) {
+    this.tel = tel;
+  }
+
   
   public int getMemberNo() {
     return memberNo;

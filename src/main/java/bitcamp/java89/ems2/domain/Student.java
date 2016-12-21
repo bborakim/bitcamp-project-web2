@@ -4,11 +4,12 @@ public class Student extends Member {
   private static final long serialVersionUID = 1L;
   
   protected boolean working;
-  protected String lastSchool;
+  protected String grade;
   protected String schoolName;
   protected String postNo;
   protected String basicAddress;
-  protected String datailAddress;
+  protected String detailAddress;
+  protected String photoPath;
   
   public boolean isWorking() {
     return working;
@@ -16,11 +17,11 @@ public class Student extends Member {
   public void setWorking(boolean working) {
     this.working = working;
   }
-  public String getLastSchool() {
-    return lastSchool;
+  public String getGrade() {
+    return grade;
   }
-  public void setLastSchool(String lastSchool) {
-    this.lastSchool = lastSchool;
+  public void setGrade(String grade) {
+    this.grade = grade;
   }
   public String getSchoolName() {
     return schoolName;
@@ -40,11 +41,17 @@ public class Student extends Member {
   public void setBasicAddress(String basicAddress) {
     this.basicAddress = basicAddress;
   }
-  public String getDatailAddress() {
-    return datailAddress;
+  public String getDetailAddress() {
+    return detailAddress;
   }
-  public void setDatailAddress(String datailAddress) {
-    this.datailAddress = datailAddress;
+  public void setDetailAddress(String detailAddress) {
+    this.detailAddress = detailAddress;
+  }
+  public String getPhotoPath() {
+    return photoPath;
+  }
+  public void setPhotoPath(String photoPath) {
+    this.photoPath = photoPath;
   }
   
   
