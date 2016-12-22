@@ -3,6 +3,7 @@ package bitcamp.java89.ems2.servlet.manager;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,22 +21,28 @@ public class ManagerDetailServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws ServletException, IOException {
     
-    int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-    
-    response.setContentType("text/html;charset=UTF-8");
-    PrintWriter out = response.getWriter();
-
-    out.println("<!DOCTYPE html>");
-    out.println("<html>");
-    out.println("<head>");
-    out.println("<meta charset='UTF-8'>");
-    out.println("<title>매니저관리-상세정보</title>");
-    out.println("</head>");
-    out.println("<body>");
-    out.println("<h1>매니저 정보</h1>");
-    out.println("<form action='update' method='POST'>");
-    
     try {
+      int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+      
+      response.setContentType("text/html;charset=UTF-8");
+      PrintWriter out = response.getWriter();
+  
+      out.println("<!DOCTYPE html>");
+      out.println("<html>");
+      out.println("<head>");
+      out.println("<meta charset='UTF-8'>");
+      out.println("<title>매니저관리-상세정보</title>");
+      out.println("</head>");
+      out.println("<body>");
+      
+    //HeaderServlet에게 머리말 HTML 생성을 요청한다.
+      RequestDispatcher rd = request.getRequestDispatcher("/header");
+      rd.include(request, response);
+      
+      out.println("<h1>매니저 정보</h1>");
+      out.println("<form action='update' method='POST'>");
+    
+    
       ManagerMysqlDao managerDao = ManagerMysqlDao.getInstance();
       Manager manager = managerDao.getOne(memberNo);
       
@@ -68,7 +75,7 @@ public class ManagerDetailServlet extends HttpServlet {
       out.println("<select name= 'posi'>");
       out.printf("  <option value='주임' %s>주임</option>\n", "주임".equals(manager.getPosition()) ? "selected" : "");
       out.printf("  <option value='대리' %s>대리</option>\n", "대리".equals(manager.getPosition()) ? "selected" : "");
-      out.printf("  <option value='부장' %s>부장</option>\n", "부장".equals(manager.getPosition()) ? "selected" : "");        
+      out.printf("  <option value='부장' %s>부장</option>\n", "부장".equals(manager.getPosition()) ? "selected" : ""); 
       out.printf("  <option value='과장' %s>과장</option>\n", "과장".equals(manager.getPosition()) ? "selected" : "");
       out.println("</select>");
       out.println("</td></tr>");
@@ -84,14 +91,20 @@ public class ManagerDetailServlet extends HttpServlet {
       out.printf(" <a href='delete?memberNo=%s'>삭제</a>", manager.getMemberNo());
       out.printf("<input type='hidden' name='memberNo' value='%d'>\n", manager.getMemberNo());
       
+      out.println(" <a href='list'>목록</a>");
+      out.println("</form>");
+      
+    //HeaderServlet에게 꼬리말 HTML 생성을 요청한다.
+      rd = request.getRequestDispatcher("/footer");
+      rd.include(request, response);
+      
+      out.println("</body>");
+      out.println("</html>");
+      
     } catch (Exception e) {
-      out.printf("<p>%s</p>\n", e.getMessage());
+      RequestDispatcher rd = request.getRequestDispatcher("/error");
+      rd.forward(request, response);
+      return;
     }
-    
-    out.println(" <a href='list'>목록</a>");
-    out.println("</form>");
-    out.println("</body>");
-    out.println("</html>");
-    
   }
 }
